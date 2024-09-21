@@ -1,6 +1,6 @@
 from tkinter import *
 from tkinter import messagebox
-from db import get_db  # Assuming you have a database connection utility
+from db import get_db
 
 # Initialize the main window
 root = Tk()
@@ -9,8 +9,44 @@ root.geometry("950x500+300+200")
 root.configure(background="#fff")
 root.resizable(False, False)
 
+def show_main_content():
+    for widget in root.winfo_children():
+        widget.destroy()
 
-# Authentication Functions
+    # new panel layout
+    box_frame = Frame(root, relief="solid", bd=1, bg="#fff")
+    box_frame.grid(row=0, column=0, rowspan=2, padx=90, pady=30)
+
+    box_label = Label(box_frame, text="Box / Label", width=40, height=15, relief="solid", bg="#fff")
+    box_label.pack()
+
+    frame = Frame(root, width=350, height=390, bg='#fff')
+    frame.place(x=480, y=50)
+
+    text_frame_left = Frame(root, relief="solid", bd=1)
+    text_frame_left.grid(row=2, column=0, padx=20, pady=20)
+
+    text_box_left = Text(text_frame_left, height=10, width=50, font=('Microsoft Yahei UI Light', 8))
+    text_box_left.pack()
+
+    text = Text(frame, width=45, fg='black', border=0, bg='white', font=('Microsoft Yahei UI Light', 11))
+    text.place(x=40, y=80)
+
+    Frame(frame, width=295, height=2, bg='black', relief="solid", bd=1).place(x=35, y=107)
+
+    text_1 = Text(frame, width=45, fg='black', border=0, bg='white', font=('Microsoft Yahei UI Light', 11))
+    text_1.place(x=40, y=150)
+
+    Frame(frame, width=295, height=2, bg='black').place(x=35, y=177)
+
+    text_2 = Text(frame, width=45, fg='black', border=0, bg='white', font=('Microsoft Yahei UI Light', 11))
+    text_2.place(x=40, y=200)
+
+    Frame(frame, width=295, height=2, bg='black').place(x=35, y=247)
+
+    Button(frame, width=45, pady=10, text='Click me', bg='#57a1f8', fg='white', border=0).place(x=35, y=280)
+    Button(frame, width=45, pady=10, text='Click me', bg='#57a1f8', fg='white', border=0).place(x=35, y=350)
+
 def signin():
     username = user.get()
     password = code.get()
@@ -22,7 +58,6 @@ def signin():
         show_main_content()
     else:
         messagebox.showerror('Invalid', 'Invalid username or password')
-
 
 def signup():
     username = user.get()
@@ -45,7 +80,6 @@ def signup():
     else:
         messagebox.showerror('Invalid', "Passwords do not match")
 
-
 def show_signup_frame():
     for widget in root.winfo_children():
         widget.destroy()
@@ -64,6 +98,9 @@ def show_signup_frame():
 
     frame = Frame(signup_frame, width=350, height=390, bg='#fff')
     frame.place(x=300, y=50)
+
+    heading = Label(frame, text="Sign Up", fg='#57a1f8', bg='white', font=('Microsoft Yahei UI Light', 23, 'bold'))
+    heading.place(x=100, y=5)
 
     global user, code, conform_code
     user = Entry(frame, width=25, fg='black', border=0, bg='white', font=('Microsoft Yahei UI Light', 11))
@@ -93,7 +130,6 @@ def show_signup_frame():
     Button(frame, width=39, pady=7, text='Sign Up', bg='#57a1f8', fg='white', border=0, command=signup).place(x=35, y=280)
     Label(frame, text='I have an account!', fg='black', bg='white', font=('Microsoft Yahei UI Light', 9)).place(x=90, y=340)
     Button(frame, width=6, text='Sign In', border=0, bg='white', cursor='hand2', fg='#57a1f8', command=show_login_frame).place(x=200, y=340)
-
 
 def show_login_frame():
     for widget in root.winfo_children():
@@ -131,100 +167,19 @@ def show_login_frame():
     Label(frame, text='Don’t have an account?', fg='black', bg='white', font=('Microsoft YaHei UI Light', 9)).place(x=75, y=270)
     Button(frame, width=6, text='Sign Up', border=0, bg='white', cursor='hand2', fg='#57a1f8', command=show_signup_frame).place(x=215, y=270)
 
-
 def on_enter(e, entry, placeholder):
     entry.delete(0, 'end')
-
 
 def on_leave(e, entry, placeholder):
     if entry.get() == '':
         entry.insert(0, placeholder)
 
+# images for login and signup
+img_login = PhotoImage(file='images/login_img.png')
+img_signup = PhotoImage(file='images/signup_img.png')
 
-# Main Content (Code 2) after Authentication
-def show_main_content():
-    for widget in root.winfo_children():
-        widget.destroy()
-
-    # The new panel layout (from second.py)
-    box_frame = Frame(root, relief="solid", bd=1, bg="#fff")
-    box_frame.grid(row=0, column=0, rowspan=2, padx=90, pady=30)
-
-    box_label = Label(box_frame, text="Box / Label", width=40, height=15, relief="solid", bg="#fff")
-    box_label.pack()
-
-    frame = Frame(root, width=350, height=390, bg='#fff')
-    frame.place(x=480, y=50)
-
-    # Text frame for description (from second.py)
-    text_frame_left = Frame(root, relief="solid", bd=1)
-    text_frame_left.grid(row=2, column=0, padx=20, pady=20)
-
-    text_box_left = Text(text_frame_left, height=10, width=50, font=('Microsoft Yahei UI Light', 8))
-    text_box_left.pack()
-
-    # Function to manage placeholders
-    def add_placeholder(text_widget, placeholder):
-        text_widget.insert("1.0", placeholder)
-        text_widget.config(fg='gray')
-
-    def clear_placeholder(event, text_widget, placeholder):
-        if text_widget.get("1.0", END).strip() == placeholder:
-            text_widget.delete("1.0", END)
-            text_widget.config(fg='black')
-
-    def restore_placeholder(event, text_widget, placeholder):
-        if text_widget.get("1.0", END).strip() == "":
-            add_placeholder(text_widget, placeholder)
-
-    # Create text boxes with placeholders (copied from second.py)
-    text_1_placeholder = "Enter your name"
-    text_1 = Text(frame, width=45, fg='black', border=0, bg='white', font=('Microsoft Yahei UI Light', 11))
-    text_1.place(x=40, y=10)
-    add_placeholder(text_1, text_1_placeholder)
-    text_1.bind("<FocusIn>", lambda e: clear_placeholder(e, text_1, text_1_placeholder))
-    text_1.bind("<FocusOut>", lambda e: restore_placeholder(e, text_1, text_1_placeholder))
-
-    Frame(frame, width=295, height=2, bg='black', relief="solid", bd=1).place(x=35, y=40)
-
-    # New surname text box
-    text_2_placeholder = "Enter your surname"
-    text_2 = Text(frame, width=45, fg='black', border=0, bg='white', font=('Microsoft Yahei UI Light', 11))
-    text_2.place(x=40, y=80)  # Adjusted y position for the new box
-    add_placeholder(text_2, text_2_placeholder)
-    text_2.bind("<FocusIn>", lambda e: clear_placeholder(e, text_2, text_2_placeholder))
-    text_2.bind("<FocusOut>", lambda e: restore_placeholder(e, text_2, text_2_placeholder))
-
-    Frame(frame, width=295, height=2, bg='black').place(x=35, y=107)
-
-    text_3_placeholder = "Enter your email"
-    text_3 = Text(frame, width=45, fg='black', border=0, bg='white', font=('Microsoft Yahei UI Light', 11))
-    text_3.place(x=40, y=150)
-    add_placeholder(text_3, text_3_placeholder)
-    text_3.bind("<FocusIn>", lambda e: clear_placeholder(e, text_3, text_3_placeholder))
-    text_3.bind("<FocusOut>", lambda e: restore_placeholder(e, text_3, text_3_placeholder))
-
-    Frame(frame, width=295, height=2, bg='black').place(x=35, y=177)
-
-    text_4_placeholder = "Enter your message"
-    text_4 = Text(frame, width=45, fg='black', border=0, bg='white', font=('Microsoft Yahei UI Light', 11))
-    text_4.place(x=40, y=220)
-    add_placeholder(text_4, text_4_placeholder)
-    text_4.bind("<FocusIn>", lambda e: clear_placeholder(e, text_4, text_4_placeholder))
-    text_4.bind("<FocusOut>", lambda e: restore_placeholder(e, text_4, text_4_placeholder))
-
-    Frame(frame, width=295, height=2, bg='black').place(x=35, y=250)
-
-    # Buttons
-    Button(frame, width=45, pady=10, text='Click me', bg='#57a1f8', fg='white', border=0).place(x=35, y=280)
-    Button(frame, width=45, pady=10, text='Click me', bg='#57a1f8', fg='white', border=0).place(x=35, y=350)
-
-
-# Load Images for Login and Signup
-img_login = PhotoImage(file='D:\code\AutoMail-Collage-Project\images\login_img.png')
-img_signup = PhotoImage(file='D:\code\AutoMail-Collage-Project\images\signup_img.png')
-
-# Start with the login frame
+# show login frame initially
 show_login_frame()
 
+# run the main loop of the tkinter application
 root.mainloop()
