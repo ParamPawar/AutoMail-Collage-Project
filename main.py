@@ -214,8 +214,8 @@ def show_main_content():
     # Function to send email
     def send_email(to_email, subject, message_body):
         try:
-            sender_email = "jonsun590@gmail.com"  # Replace with your email
-            sender_password = "aabm roxl pzdc efbw"  # Replace with your App Password
+            sender_email = ""  # Replace with your email
+            sender_password = ""  # Replace with your App Password
 
             msg = MIMEMultipart()
             msg['From'] = sender_email

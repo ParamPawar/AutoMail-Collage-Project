@@ -75,8 +75,8 @@ text_2.config(fg='gray')
 def send_email(to_email, subject, message_body):
     try:
         # Email configuration
-        sender_email = "your_email@example.com"  # Use your email
-        sender_password = "your_password"  # Use your email password
+        sender_email = ""  # Use your email
+        sender_password = ""  # Use your app code 
 
         # Create MIME message
         msg = MIMEMultipart()
