@@ -9,6 +9,56 @@ root.geometry("950x500+300+200")
 root.configure(background="#fff")
 root.resizable(False, False)
 
+
+# Functions for handling user input
+def on_enter(e, entry, placeholder):
+    entry.delete(0, 'end')
+
+def on_leave(e, entry, placeholder):
+    if entry.get() == '':
+        entry.insert(0, placeholder)
+
+# Function to clear widgets and show main content
+def show_main_content():
+    for widget in root.winfo_children():
+        widget.destroy()
+    content_frame = Frame(root, width=950, height=500, bg='white')
+    content_frame.pack(fill='both', expand=True)
+    Label(content_frame, text='Hello Everyone!', bg='#fff', font=('Calibri', 50, 'bold')).pack(expand=True)
+
+# Function to handle login process
+def signin():
+    username = user.get()
+    password = code.get()
+    db = get_db()
+    user_record = db.find_one({"username": username})
+    if user_record and user_record.get('password') == password:
+        show_main_content()
+    else:
+        messagebox.showerror('Invalid', 'Invalid username or password')
+
+# Function to show signup frame
+def show_signup_frame():
+    for widget in root.winfo_children():
+        widget.destroy()
+    signup_frame = Frame(root, width=950, height=500, bg='#fff')
+    signup_frame.pack(fill='both', expand=True)
+    ...
+    # All code for signup frame remains here
+
+# Function to show login frame
+def show_login_frame():
+    for widget in root.winfo_children():
+        widget.destroy()
+    login_frame = Frame(root, width=950, height=500, bg='white')
+    login_frame.pack(fill='both', expand=True)
+    ...
+    # All code for login frame remains here
+
+# Load images for login and signup
+img_login = PhotoImage(file='D:/code/AutoMail-Collage-Project/images/login_img.png')
+img_signup = PhotoImage(file='D:/code/AutoMail-Collage-Project/images/signup_img.png')
+
 # Function to clear widgets and show main content
 def show_main_content():
     for widget in root.winfo_children():
@@ -138,8 +188,8 @@ def show_login_frame():
     Button(frame, width=6, text='Sign Up', border=0, bg='white', cursor='hand2', fg='#57a1f8', command=show_signup_frame).place(x=215, y=270)
 
 # Load images for login and signup
-img_login = PhotoImage(file='images/login_img.png')
-img_signup = PhotoImage(file='images/signup_img.png')
+img_login = PhotoImage(file='D:\code\AutoMail-Collage-Project\images\login_img.png')
+img_signup = PhotoImage(file='D:\code\AutoMail-Collage-Project\images\signup_img.png')
 
 # Show the login frame initially
 show_login_frame()
